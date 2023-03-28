@@ -1,6 +1,6 @@
 # Dchat
 
-This is a simple chat application made in Django with Psql database. Frontend made in vanilla HTML, CSS and JS.
+This is a simple chat application made in Django. Frontend made in vanilla HTML, CSS and JS.
 
 ## Usage
 
