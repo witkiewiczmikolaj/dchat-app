@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DChat</title>
+    <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
+</head>
+<body onload="getNum()">
+    {% block content %}
+    {% endblock %}
+<script>
+
+    function changeColor(num){
+      let body = document.getElementById("chat")
+      switch (num){
+        case 0:
+          body.style.background = "linear-gradient(45deg, rgb(255, 255, 255) 0%, rgb(241, 255, 41) 35%, rgb(255, 0, 206) 100%)";
+          break;
+        case 1:
+          body.style.background = "linear-gradient(45deg, rgb(186, 34, 34) 0%, rgb(44, 182, 76) 35%, rgb(31, 7, 165) 100%)";
+          break;
+        case 2:
+          body.style.background = "linear-gradient(45deg, rgb(181, 186, 34) 0%, rgb(253, 114, 1) 35%, rgb(0, 234, 255) 100%)";
+          break;
+        case 3:
+          body.style.background = "linear-gradient(45deg, rgb(62, 61, 130) 0%, rgb(131, 196, 138) 35%, rgb(158, 72, 72) 100%)";
+          break;
+        case 4:
+          body.style.background = "linear-gradient(135deg, rgb(0, 255, 26) 0%, rgb(255, 0, 0) 50%, rgb(38, 0, 255) 100%)";
+          break;
+      }
+      
+    }
+
+    function getNum(){
+        let url = "{% url 'get_num' %}"
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            changeColor(data)
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+    }
+</script>
+</body>
+</html>

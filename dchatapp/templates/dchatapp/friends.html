@@ -1,0 +1,113 @@
+{% extends "dchatapp/base.html" %}
+
+{% block content %}
+<div id="chat" class="chat-container">
+    <div class="main">
+      <div class="logo">
+        DChat
+      </div>
+     
+      <div class="sub-main">
+        <div class="main-user">
+          <img src="{{user.pic.url}}" alt="profile picture" />
+        </div>
+        <p>{{request.user.profile}}</p>
+      </div>
+    </div>
+   
+    <div class="header">Add friends</div>
+  
+    <div class="friends-container">
+
+      {% for friend in friends %}
+
+      
+      <div class="friends" id='{{friend}}'>
+        <div class="name">
+          <p>{{friend.name}}</p>
+          <h5>Add me to friends!</h5>
+        </div>
+        <div class="msg" onclick="addFriend('{{friend}}')">+</div> 
+      </div>
+  
+  {% endfor %}
+
+    </div>
+    <div id="success" style="display: none">
+      Success!
+    </div>
+    <div id="error" style="display: none">
+      Something went wrong!
+    </div>
+    <div class="footer">
+      <div>
+        <a href=" {% url 'index' %} ">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="26"
+          height="26"
+          fill="currentColor"
+          class="bi bi-person-plus"
+          viewBox="0 0 16 16"
+        >
+        
+        <path
+        fill-rule="evenodd"
+        d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+      />
+      <path
+        fill-rule="evenodd"
+        d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
+      />
+        </svg>
+      </div>
+      </div>
+  </div>
+
+  <script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    
+    function addFriend(friend){
+      let url = "{% url 'add_friend' %}"
+      const data = { name: friend };
+        fetch(url, {
+            method: 'POST',
+            headers: { 
+                'Content-Type' : 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data == true){
+            let friend_div = document.getElementById(friend);
+            friend_div.style.display = "none";
+            let success_div = document.getElementById("success");
+            success_div.style.display = "inherit";
+          }else{
+            let error_div = document.getElementById("error");
+            error_div.style.display = "inherit";
+          }
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+    }
+    
+  </script>
+{% endblock %}
