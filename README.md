@@ -6,15 +6,10 @@ This is a simple chat application made in Django. Frontend made in vanilla HTML,
 
 You can log in, change theme colors, add new friends, change your username and of course chat with your friends.
 
-## Setup
-Run locally:
-```
-python manage.py runserver
-```
-Home page of app:
-```
-http://127.0.0.1:8000/login_user
-```
+## Demo
+
+[dchat.bieda.it](https://dchat.bieda.it/login_user)
+
 Profiles:
 ```
 Login: us1
